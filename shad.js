@@ -11,6 +11,7 @@ class Ball {
         ctx.arc(this.xVal, this.yVal, this.radius, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.strokeStyle = this.color;
+
     }
 }
 
@@ -20,10 +21,21 @@ function setUpCanvas(w, h) {
 	canvas.height = h;
 	canvas.style.border = "1px dotted brown";
 	ctx = canvas.getContext("2d");
+  var ballRadius=10;
+
+  if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+        dx = -dx;
+    }
+    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+        dy = -dy;
+    }
+
+  x += dx;
+  y += dy;
 }
 
 function bounce() {
-    var t = Math.floor (new Date().getTime()/10);
+    var t = Math.floor (new Date().getTime()/3);
 
     if(t%400 <= 390 && t%400 >= 389) {
         cp = colorPicker();
@@ -35,8 +47,8 @@ function bounce() {
     for (var i = 1; i <= 5; i++) {
         var delay = t + i * 5;
 
-        var xProjectile = (delay-200)%800;
-        var yProjectile = (1/100) * Math.pow(delay%400 -200, 2) + 400; 
+        var xProjectile = (delay-10)%800;
+        var yProjectile = (1/100) * Math.pow(delay%400 -200, 2) + 50;
 
         var myBall = new Ball(xProjectile, yProjectile, 5*i, cp);
         myBall.draw();
@@ -50,7 +62,8 @@ function colorPicker(){
     return colorsArray[r];
 }
 
-var colorsArray = ["#e51414", "#f9a82d", "#fdef69", "#78f048", "#0954f2", "#abf958", "#816dfd"];
+
+var colorsArray = ["#e51414", "#f9a82d", "#fdef69", "#78f048", "#0954f2", "#abf958", "#816dfd",];
 
 setUpCanvas(800, 800);
 var cp = '#000';
